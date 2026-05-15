@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="../img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
+    <title>Recettes | PatiCalcul</title>
+</head>
+<body class="bg-light">
+
+<script src="../js/navbar.js"></script>
+<script>loadNavbar('recette');</script>
+
+<!-- CONTENU -->
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Recettes</h2>
+        <button class="btn btn-primary" onclick="openCreateModal()">+ Nouvelle recette</button>
+    </div>
+
+    <div class="card shadow-sm">
+        <table class="table table-hover table-sm align-middle mb-0">
+            <thead class="table-light">
+            <tr>
+                <th>Nom</th>
+                <th class="d-none d-md-table-cell">Description</th>
+                <th class="text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody id="recipe-list"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- MODAL RECETTE (création & modification) -->
+<div class="modal fade" id="editModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-title">Nouvelle recette</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="edit-id">
+                <div class="mb-3">
+                    <label class="form-label">Nom</label>
+                    <input type="text" class="form-control" id="edit-name">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <input type="text" class="form-control" id="edit-description">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button class="btn btn-primary" onclick="submitForm()">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL RECIPE LINE (ajout d'une matière à une recette) -->
+<div class="modal fade" id="addLineModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ajouter une matière</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="line-recipeId">
+                <div class="mb-3">
+                    <label class="form-label">Matière</label>
+                    <select class="form-select" id="line-stuffId">
+                        <option value="" disabled selected>Choisir une matière</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Quantité</label>
+                    <input type="number" step="0.01" class="form-control" id="line-quantity">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Unité</label>
+                    <select class="form-select" id="line-unit">
+                        <option value="" disabled selected>Choisir une unité</option>
+                        <option value="gram">Gramme</option>
+                        <option value="liter">Litre</option>
+                        <option value="piece">Pièce</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button class="btn btn-primary" onclick="submitAddLine()">Ajouter</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/recette.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
