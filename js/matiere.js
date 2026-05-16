@@ -8,6 +8,7 @@
 // ──────────────────────────────────────────────
 
 document.addEventListener("DOMContentLoaded", () => {
+    checkAuth();
     loadStuffs();
 });
 
@@ -17,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Charger toutes les matières d'une personne
 async function loadStuffs() {
-    const response = await fetch(`${API_STUFF}/person/${PERSON_ID}`);
+    const response = await authFetch(`${API_STUFF}`);
     const stuffs = await response.json();
     const tbody = document.getElementById("stuff-list");
     tbody.innerHTML = "";
@@ -31,8 +32,8 @@ async function loadStuffs() {
                 <td>${stuff.packageQuantity}</td>
                 <td>${stuff.unit}</td>
                 <td>
-                    <button class="btn btn-sm btn-warning" onclick="editStuff(${stuff.id})">Modifier</button>
-                    <button class="btn btn-sm btn-danger" onclick="deleteStuff(${stuff.id})">Supprimer</button>
+                    <button class="btn btn-sm btn-warning" onclick="editStuff(${stuff.id})"><i class="bi bi-pencil"></i><span class="d-none d-md-inline"> Modifier</span></button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteStuff(${stuff.id})"><i class="bi bi-trash"></i><span class="d-none d-md-inline"> Supprimer</span></button>
                 </td>
             </tr>
         `;
@@ -41,9 +42,8 @@ async function loadStuffs() {
 
 // Créer une matière
 async function createStuff(stuff) {
-    const response = await fetch(`${API_STUFF}/person/${PERSON_ID}`, {
+    const response = await authFetch(`${API_STUFF}`, {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(stuff),
     });
     if (!response.ok) alert("Erreur lors de la création");
@@ -52,9 +52,8 @@ async function createStuff(stuff) {
 
 // Modifier une matière
 async function updateStuff(stuffId, stuff) {
-    const response = await fetch(`${API_STUFF}/${stuffId}`, {
+    const response = await authFetch(`${API_STUFF}/${stuffId}`, {
         method: "PUT",
-        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(stuff),
     });
     if (!response.ok) alert("Erreur lors de la modification");
@@ -63,7 +62,7 @@ async function updateStuff(stuffId, stuff) {
 
 // Supprimer une matière
 async function deleteStuff(stuffId) {
-    const response = await fetch(`${API_STUFF}/${stuffId}`, {
+    const response = await authFetch(`${API_STUFF}/${stuffId}`, {
         method: "DELETE",
     });
     if (!response.ok) alert("Cette matière est utilisée dans une recette et ne peut pas être supprimée");
@@ -93,7 +92,8 @@ function openCreateModal() {
 function editStuff(stuffId) {
     currentMode = "edit";
     document.getElementById("modal-title").textContent = "Modifier la matière";
-    fetch(`${API_STUFF}/${stuffId}`)
+    authFetch(`${API_STUFF}/${stuffId}`, {
+    })
         .then(res => res.json())
         .then(stuff => {
             document.getElementById("edit-id").value = stuff.id;

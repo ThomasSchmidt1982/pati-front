@@ -8,6 +8,7 @@
 // ──────────────────────────────────────────────
 
 document.addEventListener("DOMContentLoaded", () => {
+    checkAuth();
     loadRecipes();
 });
 
@@ -17,7 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Charger toutes les recettes d'une personne
 async function loadRecipes() {
-    const response = await fetch(`${API_RECIPE}/person/${PERSON_ID}`);
+    const response = await authFetch(`${API_RECIPE}`, {
+    });
     const recipes = await response.json();
     const tbody = document.getElementById("recipe-list");
     tbody.innerHTML = "";
@@ -27,10 +29,11 @@ async function loadRecipes() {
         <tr>
             <td>${recipe.name}</td>
             <td class="d-none d-md-table-cell">${recipe.description || ""}</td>
+            <td>${recipe.targetQuantity || "-"} ${recipe.targetUnit || ""}</td>
             <td>
-                <button class="btn btn-sm btn-info" id="btn-lines-${recipe.id}" onclick="toggleRecipeLines(${recipe.id})">Afficher</button>
-                <button class="btn btn-sm btn-warning" onclick="editRecipe(${recipe.id})">Modifier</button>
-                <button class="btn btn-sm btn-danger" onclick="deleteRecipe(${recipe.id})">Supprimer</button>
+                <button class="btn btn-sm btn-info" id="btn-lines-${recipe.id}" onclick="toggleRecipeLines(${recipe.id})"><i class="bi bi-eye"></i><span class="d-none d-md-inline"> Afficher</span></button>
+                <button class="btn btn-sm btn-warning" onclick="editRecipe(${recipe.id})"><i class="bi bi-pencil"></i><span class="d-none d-md-inline"> Modifier</span></button>
+                <button class="btn btn-sm btn-danger" onclick="deleteRecipe(${recipe.id})"><i class="bi bi-trash"></i><span class="d-none d-md-inline"> Supprimer</span></button>
             </td>
         </tr>
         <tr id="lines-${recipe.id}" class="collapse">
@@ -55,9 +58,8 @@ async function loadRecipes() {
 
 // Créer une recette
 async function createRecipe(recipe) {
-    const response = await fetch(`${API_RECIPE}/person/${PERSON_ID}`, {
+    const response = await authFetch(`${API_RECIPE}`, {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(recipe),
     });
     if (!response.ok) alert("Erreur lors de la création");
@@ -66,9 +68,8 @@ async function createRecipe(recipe) {
 
 // Modifier une recette
 async function updateRecipe(recipeId, recipe) {
-    const response = await fetch(`${API_RECIPE}/${recipeId}`, {
+    const response = await authFetch(`${API_RECIPE}/${recipeId}`, {
         method: "PUT",
-        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(recipe),
     });
     if (!response.ok) alert("Erreur lors de la modification");
@@ -77,7 +78,7 @@ async function updateRecipe(recipeId, recipe) {
 
 // Supprimer une recette
 async function deleteRecipe(recipeId) {
-    const response = await fetch(`${API_RECIPE}/${recipeId}`, {
+    const response = await authFetch(`${API_RECIPE}/${recipeId}`, {
         method: "DELETE",
     });
     if (!response.ok) alert("Erreur lors de la suppression");
@@ -97,6 +98,8 @@ function openCreateModal() {
     document.getElementById("edit-id").value = "";
     document.getElementById("edit-name").value = "";
     document.getElementById("edit-description").value = "";
+    document.getElementById("edit-targetQuantity").value = "";
+    document.getElementById("edit-targetUnit").value = "gram";
     new bootstrap.Modal(document.getElementById("editModal")).show();
 }
 
@@ -104,12 +107,15 @@ function openCreateModal() {
 function editRecipe(recipeId) {
     currentMode = "edit";
     document.getElementById("modal-title").textContent = "Modifier la recette";
-    fetch(`${API_RECIPE}/${recipeId}`)
+    authFetch(`${API_RECIPE}/${recipeId}`, {
+    })
         .then(res => res.json())
         .then(recipe => {
             document.getElementById("edit-id").value = recipe.id;
             document.getElementById("edit-name").value = recipe.name;
             document.getElementById("edit-description").value = recipe.description || "";
+            document.getElementById("edit-targetQuantity").value = recipe.targetQuantity || "";
+            document.getElementById("edit-targetUnit").value = recipe.targetUnit || "gram";
             new bootstrap.Modal(document.getElementById("editModal")).show();
         });
 }
@@ -119,6 +125,8 @@ function submitForm() {
     const recipe = {
         name: document.getElementById("edit-name").value,
         description: document.getElementById("edit-description").value,
+        targetQuantity: document.getElementById("edit-targetQuantity").value,
+        targetUnit: document.getElementById("edit-targetUnit").value,
     };
     if (currentMode === "create") {
         createRecipe(recipe);
@@ -139,18 +147,19 @@ async function toggleRecipeLines(recipeId) {
 
     if (row.classList.contains("show")) {
         row.classList.remove("show");
-        btn.textContent = "Afficher";
+        btn.innerHTML = '<i class="bi bi-eye"></i><span class="d-none d-md-inline"> Afficher</span>';
         return;
     }
 
     await loadRecipeLines(recipeId);
     row.classList.add("show");
-    btn.textContent = "Cacher";
+    btn.innerHTML = '<i class="bi bi-eye-slash"></i><span class="d-none d-md-inline"> Cacher</span>';
 }
 
 // Charger les lignes d'une recette dans le tableau collapsible
 async function loadRecipeLines(recipeId) {
-    const response = await fetch(`${API_RECIPE_LINE}/recipe/${recipeId}`);
+    const response = await authFetch(`${API_RECIPE_LINE}/recipe/${recipeId}`, {
+    });
     const lines = await response.json();
     const tbody = document.getElementById(`recipeline-${recipeId}`);
     tbody.innerHTML = "";
@@ -162,7 +171,7 @@ async function loadRecipeLines(recipeId) {
                 <td>${line.quantity}</td>
                 <td>${line.unit}</td>
                 <td>
-                    <button class="btn btn-sm btn-danger" onclick="deleteRecipeLine(${line.id}, ${recipeId})">Retirer</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteRecipeLine(${line.id}, ${recipeId})"><i class="bi bi-trash"></i><span class="d-none d-md-inline"> Supprimer</span></button>
                 </td>
             </tr>
         `;
@@ -171,7 +180,7 @@ async function loadRecipeLines(recipeId) {
 
 // Supprimer une ligne et rafraîchir
 async function deleteRecipeLine(recipeLineId, recipeId) {
-    const response = await fetch(`${API_RECIPE_LINE}/${recipeLineId}`, {
+    const response = await authFetch(`${API_RECIPE_LINE}/${recipeLineId}`, {
         method: "DELETE",
     });
     if (!response.ok) alert("Impossible de supprimer cette ligne");
@@ -186,17 +195,24 @@ async function deleteRecipeLine(recipeLineId, recipeId) {
 async function openAddLineModal(recipeId) {
     document.getElementById("line-recipeId").value = recipeId;
     document.getElementById("line-quantity").value = "";
-    document.getElementById("line-unit").value="";
+    document.getElementById("line-unit").value = "";
 
     // Charger la liste des matières disponibles
-    const response = await fetch(`${API_STUFF}/person/${PERSON_ID}`);
+    const response = await authFetch(`${API_STUFF}`, {
+    });
     const stuffs = await response.json();
     const select = document.getElementById("line-stuffId");
     select.innerHTML = "";
     select.innerHTML = '<option value="" disabled selected>Choisir une matière</option>';
     stuffs.forEach(stuff => {
-        select.innerHTML += `<option value="${stuff.id}">${stuff.name} (${stuff.unit})</option>`;
+        select.innerHTML += `<option value="${stuff.id}" data-unit="${stuff.unit}">${stuff.name} (${stuff.unit})</option>`;
     });
+
+// Auto-remplir l'unité quand on change le stuff
+    document.getElementById("line-stuffId").onchange = function() {
+        const selected = this.options[this.selectedIndex];
+        document.getElementById("line-unit").value = selected.dataset.unit;
+    };
     new bootstrap.Modal(document.getElementById("addLineModal")).show();
 }
 
@@ -209,9 +225,8 @@ async function submitAddLine() {
         unit: document.getElementById("line-unit").value,
     };
 
-    const response = await fetch(`${API_RECIPE_LINE}/${recipeId}/${stuffId}`, {
+    const response = await authFetch(`${API_RECIPE_LINE}/${recipeId}/${stuffId}`, {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(recipeLine),
     });
     if (!response.ok) alert("Erreur lors de l'ajout");
