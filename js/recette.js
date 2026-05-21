@@ -31,7 +31,7 @@ async function loadRecipes() {
             <td class="d-none d-md-table-cell">${recipe.description || ""}</td>
             <td>${recipe.targetQuantity || "-"} ${recipe.targetUnit || ""}</td>
             <td>
-                <button class="btn btn-sm btn-info" id="btn-lines-${recipe.id}" onclick="toggleRecipeLines(${recipe.id})"><i class="bi bi-eye"></i><span class="d-none d-md-inline"> Afficher</span></button>
+                <button class="btn btn-sm btn-info" id="btn-lines-${recipe.id}" onclick="toggleRecipeLines(${recipe.id})"><i class="bi bi-eye"></i><span class="d-none d-md-inline"> Matière</span></button>
                 <button class="btn btn-sm btn-warning" onclick="editRecipe(${recipe.id})"><i class="bi bi-pencil"></i><span class="d-none d-md-inline"> Modifier</span></button>
                 <button class="btn btn-sm btn-danger" onclick="deleteRecipe(${recipe.id})"><i class="bi bi-trash"></i><span class="d-none d-md-inline"> Supprimer</span></button>
             </td>
@@ -147,7 +147,7 @@ async function toggleRecipeLines(recipeId) {
 
     if (row.classList.contains("show")) {
         row.classList.remove("show");
-        btn.innerHTML = '<i class="bi bi-eye"></i><span class="d-none d-md-inline"> Afficher</span>';
+        btn.innerHTML = '<i class="bi bi-eye"></i><span class="d-none d-md-inline"> Matière</span>';
         return;
     }
 

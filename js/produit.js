@@ -46,7 +46,7 @@ async function loadProducts() {
             <td class="d-none d-md-table-cell">${product.marginCoefficient}</td>
             <td id="price-${product.id}">${typeof sellingPrice === "number" ? sellingPrice.toFixed(2) + " €" : "-"}</td>
             <td>
-                <button class="btn btn-sm btn-info" id="btn-lines-${product.id}" onclick="toggleProductLines(${product.id})"><i class="bi bi-eye"></i><span class="d-none d-md-inline"> Afficher</span></button>
+                <button class="btn btn-sm btn-info" id="btn-lines-${product.id}" onclick="toggleProductLines(${product.id})"><i class="bi bi-eye"></i><span class="d-none d-md-inline"> Recette</span></button>
                 <button class="btn btn-sm btn-warning" onclick="editProduct(${product.id})"><i class="bi bi-pencil"></i><span class="d-none d-md-inline"> Modifier</span></button>
                 <button class="btn btn-sm btn-danger" onclick="deleteProduct(${product.id})"><i class="bi bi-trash"></i><span class="d-none d-md-inline"> Supprimer</span></button>
             </td>
@@ -158,7 +158,7 @@ async function toggleProductLines(productId) {
 
     if (row.classList.contains("show")) {
         row.classList.remove("show");
-        btn.innerHTML = '<i class="bi bi-eye"></i><span class="d-none d-md-inline"> Afficher</span>';
+        btn.innerHTML = '<i class="bi bi-eye"></i><span class="d-none d-md-inline"> Recette</span>';
         return;
     }
 

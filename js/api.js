@@ -1,4 +1,5 @@
-const API_BASE = "http://localhost:8080";
+const API_BASE = "https://paticalcul.thomasschmidt.fr/api"; // live
+// const API_BASE = "http://localhost:8080"; // local
 const API_STUFF = `${API_BASE}/stuffs`;
 const API_PERSON = `${API_BASE}/persons`;
 const API_RECIPE = `${API_BASE}/recipes`;
@@ -45,6 +46,9 @@ function logout() {
 function getUser() {
     const token = getToken();
     if (!token) return null;
-    const payload = JSON.parse(atob(token.split(".")[1]));
-    return payload;
+    const base64 = token.split(".")[1];
+    const json = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(json);
 }

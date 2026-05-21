@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="apple-touch-icon" sizes="180x180" href="../img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
+  <title>Help | PatiCalcul</title>
+</head>
+<body class="bg-light">
+
+<script src="../js/api.js"></script>
+<script src="../js/navbar.js"></script>
+<script>loadNavbar('matiere');</script>
+
+<!-- CONTENU -->
+<div class="container py-4">
+  <h2 class="mb-4">📖 Guide d'utilisation</h2>
+
+  <div class="accordion" id="helpAccordion">
+
+    <!-- ÉTAPE 1 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#step1">
+          <i class="bi bi-1-circle me-2"></i> Créer un compte et se connecter
+        </button>
+      </h2>
+      <div id="step1" class="accordion-collapse collapse show" data-bs-parent="#helpAccordion">
+        <div class="accordion-body">
+          <p>Sur la page de connexion, cliquez sur <strong>"Créer un compte"</strong> et remplissez vos informations (prénom, nom, email, mot de passe).</p>
+          <p>Une fois inscrit, vous êtes automatiquement connecté. Pour vos prochaines visites, utilisez votre email et mot de passe pour vous connecter.</p>
+          <p>Pour vous déconnecter, cliquez sur <strong>"Déconnexion"</strong> dans le menu.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ÉTAPE 2 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#step2">
+          <i class="bi bi-2-circle me-2"></i> Ajouter vos matières premières
+        </button>
+      </h2>
+      <div id="step2" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+        <div class="accordion-body">
+          <p>Allez dans <strong>Matières</strong> et cliquez sur <strong>"+ Nouvelle matière"</strong>.</p>
+          <p>Renseignez :</p>
+          <ul>
+            <li><strong>Nom</strong> : ex. "Farine T45"</li>
+            <li><strong>Description</strong> : optionnel</li>
+            <li><strong>Prix</strong> : le prix d'achat du paquet (ex. 1.80 €)</li>
+            <li><strong>Quantité paquet</strong> : la quantité contenue dans le paquet (ex. 1000 pour 1kg)</li>
+            <li><strong>Unité</strong> : Gramme, Litre ou Pièce</li>
+          </ul>
+          <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i> Le coût unitaire est calculé automatiquement à partir du prix et de la quantité du paquet. Par exemple : 1.80 € / 1000g = 0.0018 €/g.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ÉTAPE 3 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#step3">
+          <i class="bi bi-3-circle me-2"></i> Créer vos recettes
+        </button>
+      </h2>
+      <div id="step3" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+        <div class="accordion-body">
+          <p>Allez dans <strong>Recettes</strong> et cliquez sur <strong>"+ Nouvelle recette"</strong>.</p>
+          <p>Renseignez :</p>
+          <ul>
+            <li><strong>Nom</strong> : ex. "Pâte feuilletée"</li>
+            <li><strong>Description</strong> : optionnel</li>
+            <li><strong>Quantité produite</strong> : la quantité totale que cette recette produit (ex. 1000)</li>
+            <li><strong>Unité produite</strong> : Gramme, Litre ou Pièce</li>
+          </ul>
+          <p>Une fois la recette créée, cliquez sur <strong><i class="bi bi-eye"></i> Matière</strong> pour voir sa composition, puis sur <strong>"Ajouter une matière"</strong> pour y ajouter vos ingrédients avec les quantités.</p>
+          <div class="alert alert-warning">
+            <i class="bi bi-exclamation-triangle"></i> L'unité de la matière ajoutée doit correspondre à l'unité de la matière première (ex. on ne peut pas ajouter des litres de farine).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ÉTAPE 4 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#step4">
+          <i class="bi bi-4-circle me-2"></i> Créer vos produits
+        </button>
+      </h2>
+      <div id="step4" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+        <div class="accordion-body">
+          <p>Allez dans <strong>Produits</strong> et cliquez sur <strong>"+ Nouveau produit"</strong>.</p>
+          <p>Renseignez :</p>
+          <ul>
+            <li><strong>Nom</strong> : ex. "Chausson aux pommes"</li>
+            <li><strong>Description</strong> : optionnel</li>
+            <li><strong>Coefficient de marge</strong> : le multiplicateur pour obtenir le prix de vente (ex. 2.5 signifie que le prix de vente = coût × 2.5)</li>
+          </ul>
+          <p>Une fois le produit créé, cliquez sur <strong><i class="bi bi-eye"></i> Recette</strong> pour voir ses recettes, puis sur <strong>"Ajouter une recette"</strong>.</p>
+          <p>Pour chaque recette ajoutée, indiquez la <strong>quantité utilisée</strong> dans ce produit. Par exemple, si votre recette de pâte feuilletée produit 1000g et que votre chausson en utilise 200g, indiquez 200.</p>
+          <p>Il est possible de mettre plusieurs recettes dans un produit. Par exemple, pour mes chaussons aux pommes je mettrais une recette de pâte feuilettée et une recette de garniture de compote de pommes. </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ÉTAPE 5 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#step5">
+          <i class="bi bi-5-circle me-2"></i> Lire les résultats
+        </button>
+      </h2>
+      <div id="step5" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+        <div class="accordion-body">
+          <p>Sur la page <strong>Produits</strong>, chaque ligne affiche :</p>
+          <ul>
+            <li><strong>Coût</strong> : le coût matière total du produit (somme des coûts de chaque recette au prorata de la quantité utilisée)</li>
+            <li><strong>Coef.</strong> : votre coefficient de marge</li>
+            <li><strong>Prix de vente</strong> : coût × coefficient de marge</li>
+          </ul>
+          <div class="alert alert-success">
+            <i class="bi bi-calculator"></i> Le calcul se met à jour automatiquement quand vous ajoutez ou retirez une recette, ou quand vous modifiez le prix d'une matière première.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXEMPLE -->
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#example">
+          <i class="bi bi-lightbulb me-2"></i> Exemple complet
+        </button>
+      </h2>
+      <div id="example" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+        <div class="accordion-body">
+          <h6>1. Matières premières</h6>
+          <table class="table table-sm">
+            <thead class="table-light">
+            <tr><th>Matière</th><th>Prix</th><th>Qté paquet</th><th>Unité</th></tr>
+            </thead>
+            <tbody>
+            <tr><td>Farine T45</td><td>1.80 €</td><td>1000</td><td>Gramme</td></tr>
+            <tr><td>Beurre</td><td>3.50 €</td><td>250</td><td>Gramme</td></tr>
+            <tr><td>Sel</td><td>0.80 €</td><td>500</td><td>Gramme</td></tr>
+            </tbody>
+          </table>
+
+          <h6>2. Recette "Pâte feuilletée" (produit 1000g)</h6>
+          <table class="table table-sm">
+            <thead class="table-light">
+            <tr><th>Matière</th><th>Quantité</th><th>Coût</th></tr>
+            </thead>
+            <tbody>
+            <tr><td>Farine T45</td><td>500g</td><td>500/1000 × 1.80 = 0.90 €</td></tr>
+            <tr><td>Beurre</td><td>250g</td><td>250/250 × 3.50 = 3.50 €</td></tr>
+            <tr><td>Eau</td><td>240g</td><td>0.00 €</td></tr>
+            <tr><td>Sel</td><td>10g</td><td>10/500 × 0.80 = 0.016 €</td></tr>
+            <tr><td colspan="2"><strong>Total recette (1000g)</strong></td><td><strong>4.416 €</strong></td></tr>
+            </tbody>
+          </table>
+
+          <h6>3. Produit "Chausson" (coef. marge : 3)</h6>
+          <table class="table table-sm">
+            <thead class="table-light">
+            <tr><th>Recette</th><th>Utilisé</th><th>Coût</th></tr>
+            </thead>
+            <tbody>
+            <tr><td>Pâte feuilletée</td><td>200g sur 1000g</td><td>200/1000 × 4.416 = 0.88 €</td></tr>
+            <tr><td colspan="2"><strong>Coût matière</strong></td><td><strong>0.88 €</strong></td></tr>
+            <tr><td colspan="2"><strong>Prix de vente (× 3)</strong></td><td><strong>2.65 €</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

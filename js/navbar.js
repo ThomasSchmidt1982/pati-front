@@ -20,6 +20,7 @@ function loadNavbar(activePage) {
                     <a class="nav-link ${activePage === 'matiere' ? 'active fw-bold' : ''}" href="${prefix}matiere.html">Matières</a>
                     <a class="nav-link ${activePage === 'recette' ? 'active fw-bold' : ''}" href="${prefix}recette.html">Recettes</a>
                     <a class="nav-link ${activePage === 'produit' ? 'active fw-bold' : ''}" href="${prefix}produit.html">Produits</a>
+                    <a class="nav-link ${activePage === 'help' ? 'active fw-bold' : ''}" href="${prefix}help.html">Help</a>
                     <hr class="d-md-none">
                     <span class="nav-link text-secondary d-none d-md-inline">👤 ${userName} <span class="badge ${badgeColor}">${userRole}</span></span>
                     <a class="nav-link text-danger" href="#" onclick="logout()">Déconnexion</a>
