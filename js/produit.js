@@ -220,6 +220,8 @@ async function openAddLineModal(productId) {
     document.getElementById("line-productId").value = productId;
     document.getElementById("line-quantity").value = "";
     document.getElementById("line-unit").value = "";
+    document.getElementById("line-unit").disabled = true;
+
 
     // Charger la liste des recettes disponibles
     const response = await authFetch(`${API_RECIPE}`);

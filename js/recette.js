@@ -116,7 +116,7 @@ function editRecipe(recipeId) {
             document.getElementById("edit-description").value = recipe.description || "";
             document.getElementById("edit-targetQuantity").value = recipe.targetQuantity || "";
             document.getElementById("edit-targetUnit").value = recipe.targetUnit || "gram";
-            new bootstrap.Modal(document.getElementById("editModal")).show();
+                new bootstrap.Modal(document.getElementById("editModal")).show();
         });
 }
 
@@ -196,6 +196,8 @@ async function openAddLineModal(recipeId) {
     document.getElementById("line-recipeId").value = recipeId;
     document.getElementById("line-quantity").value = "";
     document.getElementById("line-unit").value = "";
+    document.getElementById("line-unit").disabled = true;
+
 
     // Charger la liste des matières disponibles
     const response = await authFetch(`${API_STUFF}`, {
